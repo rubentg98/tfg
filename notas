@@ -1,0 +1,36 @@
+FROM centos/systemd
+
+
+# Update CentOS
+RUN yum -y update
+
+
+#Install Redhat Software Collections repository
+RUN yum install -y centos-release-scl
+
+# Install Centreon Repository
+RUN yum install -y https://yum.centreon.com/standard/20.04/el7/stable/noarch/RPMS/centreon-release-20.04-1.el7.centos.noarch.rpm
+
+# Install ssh
+RUN yum -y install openssh-server openssh-client
+RUN mkdir /var/run/sshd
+RUN echo 'root:centreon' | chpasswd
+RUN sed -i 's/^#PermitRootLogin/PermitRootLogin/g' /etc/ssh/sshd_config
+#RUN /etc/init.d/ssh start && /etc/init.d/ssh stop
+
+# Install centreon
+RUN yum -y install MariaDB-server 
+#RUN /etc/init.d/mysql start
+RUN yum -y install centreon 
+RUN yum -y install centreon-database
+RUN yum -y install httpd24
+#RUN systemctl daemon-reload
+RUN /etc/init.d/mysql restart
+RUN echo "date.timezone = Europe/Paris" >> /etc/opt/rh/rh-php72/php.d/50-centreon.ini
+#RUN systemctl enable rh-php72-php-fpm httpd24-httpd mariadb centreon cbd centengine gorgoned snmptrapd centreontrapd snmpd
+#CMD [ "systemctl enable rh-php72-php-fpm httpd24-httpd mariadb centreon cbd centengine gorgoned snmptrapd centreontrapd snmpd" ]
+#RUN systemctl start httpd24-httpd
+
+#CMD [ "systemctl start httpd24-httpd" ]
+#RUN centreon-base-config-centreon-engine centreon-installed centreon-clapi 
+#RUN /etc/init.d/mysql stop
