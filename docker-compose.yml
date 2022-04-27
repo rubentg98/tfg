@@ -5,6 +5,8 @@ services:
     ports:
       - "80:80"
     privileged: true
+    volumes:
+      - centreon-conf:/etc/centreon
     networks:
       tfg:
         ipv4_address: 10.0.0.10
@@ -22,13 +24,15 @@ services:
         aliases:
           - mariadb
     volumes:
-      - ./data:/var/lib/mysql
+      - centreon-db:/var/lib/mysql
   grafana:
     container_name: grafana
     image: grafana/grafana-enterprise:latest
     ports:
       - "3000:3000"
     privileged: true
+    volumes:
+      - grafana-provisioning:/var/lib/grafana
     networks:
       tfg:
         ipv4_address: 10.0.0.30
@@ -39,3 +43,8 @@ networks:
     ipam:
         config:
           - subnet: "10.0.0.0/24"
+volumes:
+  centreon-conf:
+  centreon-db:
+  grafana-config:
+  grafana-provisioning:

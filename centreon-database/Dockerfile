@@ -1,4 +1,4 @@
-FROM local/c7-systemd
+FROM rubentg98/centos-systemd
 
 # Update CentOS
 RUN yum -y update

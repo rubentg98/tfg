@@ -1,4 +1,4 @@
-FROM local/c7-systemd
+FROM rubentg98/centos-systemd
 
 # Update CentOS
 RUN yum -y update
@@ -20,7 +20,6 @@ RUN yum -y install openssh-server openssh-client
 RUN mkdir /var/run/sshd
 RUN echo 'root:centreon' | chpasswd
 RUN sed -i 's/^#PermitRootLogin/PermitRootLogin/g' /etc/ssh/sshd_config
-#RUN /etc/init.d/ssh start && /etc/init.d/ssh stop
 
 # Install centreon
 RUN yum install -y centreon-base-config-centreon-engine centreon-widget\* 
@@ -33,9 +32,6 @@ RUN echo "date.timezone = Europe/Paris" >> /etc/php.ini
 RUN systemctl enable php-fpm httpd24-httpd centreon cbd centengine gorgoned snmptrapd centreontrapd snmpd
 
 EXPOSE 80
-#CMD ["echo \"date.timezone = Europe/Paris\" >> /etc/opt/rh/rh-php72/php.d/50-centreon.ini"]
-#CMD [ "systemctl start httpd24-httpd" ]
-#RUN centreon-base-config-centreon-engine centreon-installed centreon-clapi 
-#RUN /etc/init.d/mysql stop
+
 
 #¡¡¡¡¡NO HAY QUE OLVIDAR LANZARLO CON PRIVILEGED!!!!!!!!
