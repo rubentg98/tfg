@@ -18,12 +18,6 @@ RUN yum install -y https://yum.centreon.com/standard/21.10/el7/stable/noarch/RPM
 #Install Redhat Software Collections repository
 RUN yum install -y centreon-database
 
-# Install ssh
-RUN yum -y install openssh-server openssh-client
-RUN mkdir /var/run/sshd
-RUN echo 'root:centreon' | chpasswd
-RUN sed -i 's/^#PermitRootLogin/PermitRootLogin/g' /etc/ssh/sshd_config
-
 RUN systemctl enable mariadb
 
 EXPOSE 3306

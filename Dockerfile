@@ -15,12 +15,6 @@ RUN yum-config-manager --enable remi-php80
 # Install Centreon Repository
 RUN yum install -y https://yum.centreon.com/standard/21.10/el7/stable/noarch/RPMS/centreon-release-21.10-5.el7.centos.noarch.rpm
 
-# Install ssh
-RUN yum -y install openssh-server openssh-client
-RUN mkdir /var/run/sshd
-RUN echo 'root:centreon' | chpasswd
-RUN sed -i 's/^#PermitRootLogin/PermitRootLogin/g' /etc/ssh/sshd_config
-
 # Install centreon
 RUN yum install -y centreon-base-config-centreon-engine centreon-widget\* 
 

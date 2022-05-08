@@ -1,3 +1,4 @@
+version: '3.8'
 services:
   centreon:
     build: .
@@ -27,10 +28,9 @@ services:
       - centreon-db:/var/lib/mysql
   grafana:
     container_name: grafana
-    image: grafana/grafana-enterprise:latest
+    image: grafana/grafana-enterprise:8.5.0
     ports:
       - "3000:3000"
-    privileged: true
     volumes:
       - grafana-provisioning:/var/lib/grafana
     networks:
@@ -46,5 +46,4 @@ networks:
 volumes:
   centreon-conf:
   centreon-db:
-  grafana-config:
   grafana-provisioning:
