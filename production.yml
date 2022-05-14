@@ -1,0 +1,52 @@
+version: '3.8'
+services:
+  centreon:
+    build: .
+    container_name: centreon
+    ports:
+      - "80:80"
+    privileged: true
+    restart: always
+    volumes:
+      - centreon-conf:/etc/centreon
+    networks:
+      tfg:
+        ipv4_address: 10.0.0.10
+        aliases:
+          - centreon
+  mariadb:
+    container_name: mariadb
+    build: ./centreon-database
+    ports:
+      - "3306:3306"
+    privileged: true
+    restart: always
+    networks:
+      tfg:
+        ipv4_address: 10.0.0.20
+        aliases:
+          - mariadb
+    volumes:
+      - centreon-db:/var/lib/mysql
+  grafana:
+    container_name: grafana
+    image: grafana/grafana-enterprise:8.5.0
+    ports:
+      - "3000:3000"
+    restart: always
+    volumes:
+      - grafana-provisioning:/var/lib/grafana
+    networks:
+      tfg:
+        ipv4_address: 10.0.0.30
+        aliases:
+          - grafana
+networks:
+  tfg:
+    ipam:
+        config:
+          - subnet: "10.0.0.0/24"
+volumes:
+  centreon-conf:
+  centreon-db:
+  grafana-provisioning:
