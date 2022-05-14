@@ -49,4 +49,4 @@ networks:
 volumes:
   centreon-conf:
   centreon-db:
-  grafana-provisioning:
+  grafana-config:
