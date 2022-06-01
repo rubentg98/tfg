@@ -1,13 +1,13 @@
 version: '3.8'
 services:
   centreon:
-    build: .
+    image: rubentg98/centreon:1.0
     container_name: centreon
     ports:
       - "80:80"
     privileged: true
     volumes:
-      - centreon-conf:/etc/centreon
+      - centreon-config:/etc/centreon
     networks:
       tfg:
         ipv4_address: 10.0.0.10
@@ -15,7 +15,7 @@ services:
           - centreon
   mariadb:
     container_name: mariadb
-    build: ./centreon-database
+    image: rubentg98/centreon-database:1.0
     ports:
       - "3306:3306"
     privileged: true
@@ -32,7 +32,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - grafana-provisioning:/var/lib/grafana
+      - grafana-config:/var/lib/grafana
     networks:
       tfg:
         ipv4_address: 10.0.0.30
@@ -44,6 +44,9 @@ networks:
         config:
           - subnet: "10.0.0.0/24"
 volumes:
-  centreon-conf:
+  centreon-config:
+    external: true
   centreon-db:
-  grafana-provisioning:
+    external: true
+  grafana-config:
+    external: true
